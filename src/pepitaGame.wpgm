@@ -17,18 +17,31 @@ program PepitaGame {
 	game.addVisual(buenosAires)
 	game.addVisual(villaGesell)
 	game.addVisual(pepita)
+	game.whenCollideDo (pepita,{comida => comida.remover()})
+	game.whenCollideDo(pepita,{ciudad => ciudad.habla(pepita)})
 
 //	TECLADO
 	keyboard.h().onPressDo { game.say(pepita, "Hola chiques!") }
 
 	keyboard.v().onPressDo { pepita.volaHacia(villaGesell) }
 	keyboard.b().onPressDo { pepita.volaHacia(buenosAires) }
-
-	keyboard.up().onPressDo { pepita.move(pepita.position().up(1)) }
-	keyboard.down().onPressDo { pepita.move(pepita.position().down(1)) }
-	keyboard.left().onPressDo { pepita.move(pepita.position().left(1)) }
-	keyboard.right().onPressDo { pepita.move(pepita.position().right(1)) }
+	keyboard.m().onPressDo { pepita.volaHacia(manzana) }
+	keyboard.a().onPressDo { pepita.volaHacia(alpiste) }
+	
+	
+	keyboard.up().onPressDo   { if (pepita.tieneEnergia()) {pepita.move(pepita.position().up(1))}
+							else {pepita.tieneHambre()}}
+							
+	keyboard.down().onPressDo { if (pepita.tieneEnergia()) {pepita.move(pepita.position().down(1))}
+							else {pepita.tieneHambre()} }
+							
+	keyboard.left().onPressDo { if (pepita.tieneEnergia()) {pepita.move(pepita.position().left(1))}
+							else {pepita.tieneHambre()}}
+	
+	keyboard.right().onPressDo { if (pepita.tieneEnergia()) {pepita.move(pepita.position().right(1))}
+							else {pepita.tieneHambre()}}
 		
 //	START
 	game.start()
 }
+
